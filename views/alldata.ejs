@@ -5,34 +5,83 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-900 text-white min-h-screen">
+
+
   <div class="p-6">
     <h1 class="text-3xl font-bold mb-6 text-center">Gallery</h1>
-
+    <div class="flex items-center justify-center bg-gray-900 py-9">
+      <a href="/mainpage" 
+         class="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-6 rounded transition">
+        Upload Item
+      </a>
+    </div>
     <% if (items.length === 0) { %>
       <div class="w-full h-48 flex items-center justify-center bg-gray-700 text-gray-400 rounded-lg">
         No Data Available
       </div>
     <% } else { %>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         <% items.forEach(item => { %>
-          <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-            <img src="<%= item.imageUrl %>" 
-                 alt="<%= item.name %>" 
-                 class="w-full h-64 object-contain bg-black">
-            <div class="p-4">
+          <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:scale-105 transform transition duration-300">
+            
+            <% if(item.imageUrl){ %>
+              <img src="<%= item.imageUrl %>" 
+                   alt="<%= item.name %>" 
+                   class="w-full h-64 object-cover bg-black">
+            <% } else { %>
+              <div class="w-full h-64 flex items-center justify-center bg-gray-700 text-gray-400">
+                No Image
+              </div>
+            <% } %>
+
+            <div class="p-4 flex flex-col gap-2">
               <h2 class="text-lg font-bold"><%= item.name %></h2>
               <p class="text-sm text-gray-400"><%= item.description %></p>
-              <p class="text-xs text-gray-500 mt-2">Uploaded: <%= item.createdAt.toLocaleString() %></p>
+              <p class="text-xs text-gray-500">Uploaded: <%= item.createdAt.toLocaleString() %></p>
+
+              <!-- Buttons -->
+              <div class="flex justify-between mt-2">
+                <button onclick="copyLink('<%= item.imageUrl %>')" 
+                        class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">
+                  Copy Link
+                </button>
+                <button onclick="downloadFile('<%= item.imageUrl %>', '<%= item.name.replace(/\s+/)%>')"  
+                        class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm">
+                  Download
+                </button>
+              </div>
             </div>
           </div>
         <% }) %>
       </div>
     <% } %>
   </div>
-  <a href="/mainpage" 
-class="bg-pink-500 hover:bg-pink-600 m-12 text-white font-semibold py-2 px-4 rounded transition">
- Upload Item
-</a>
+
+
+  <script>
+    // Copy link
+    function copyLink(link) {
+      navigator.clipboard.writeText(link).then(() => {
+        alert('Link copied to clipboard!');
+      }).catch(err => {
+        alert('Failed to copy link: ' + err);
+      });
+    }
+
+    // Force download with correct filename
+    function downloadFile(url, filename) {
+      fetch(url)
+        .then(res => res.blob())
+        .then(blob => {
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = filename; // force correct name
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+        })
+        .catch(err => alert('Download failed: ' + err));
+    }
+  </script>
 </body>
 </html>
-

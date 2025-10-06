@@ -3,7 +3,12 @@ import { saveImg, allData } from "../controllers/fileUpload.js";
 
 const router = Router();
 
-router.post("/upload", saveImg);   // Upload file or link
-// router.get("/all", allData);       // Show all files
+// POST /upload  → handles file upload
+router.post("/", saveImg);
+
+// GET /upload/all → show all files
+router.get("/all", allData);
 
 export default router;
+
+// Cannot GET /upload/upload
