@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Items</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white min-h-screen p-6 flex flex-col items-center">
+
+<h1 class="text-3xl font-bold mb-6">Mini Pinterest</h1>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full max-w-6xl">
+  <% if (items.length === 0) { %>
+    <div class="flex items-center justify-center w-full h-full bg-gray-800 rounded-xl shadow-lg border-2 border-red-500 text-red-400 font-bold text-lg animate-pulse">
+      No Data Available
+    </div>
+    
+  <% } else { %>
+    <% items.forEach(item => { %>
+      <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden flex flex-col">
+          
+          <% if (item.imageUrl) { %>
+            <img src="<%= item.imageUrl %>" class="w-full h-full object-contain transition-transform duration-300 hover:scale-105" alt="<%= item.name %>">
+
+          <% } else if(item.linkUrl) { %>
+              <iframe src="<%= item.linkurl %>" class="w-full h-48"></iframe>
+          <% } else { %>
+              <div class="w-full h-48 flex items-center justify-center bg-gray-700 text-gray-400">No Content</div>
+          <% } %>
+
+          <div class="p-4 flex-1 flex flex-col">
+              <h2 class="font-bold text-xl mb-2"><%= item.name %></h2>
+              <p class="text-gray-300 flex-1"><%= item.description || '' %></p>
+              <p class="text-xs text-gray-500 mt-2">Submitted: <%= item.createdAt.toLocaleString() %></p>
+          </div>
+      </div>
+  <% }) %>
+  <% } %>
+  
+    
+</div>
+<a href="/mainpage" 
+class="bg-pink-500 hover:bg-pink-600 m-12 text-white font-semibold py-2 px-4 rounded transition">
+ Upload Item
+</a>
+</body>
+</html>
