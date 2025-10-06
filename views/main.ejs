@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Upload</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
+  <form action="/upload/upload" method="POST" enctype="multipart/form-data"
+        class="bg-gray-800 p-6 rounded-lg shadow-lg space-y-4 w-full max-w-md">
+
+    <h1 class="text-2xl font-bold text-center">Upload Image / Link</h1>
+
+    <input type="text" name="name" placeholder="Name" autocomplete="off"
+           class="w-full p-2 rounded bg-gray-700 border border-gray-600">
+
+    <textarea name="description" placeholder="Description"  autocomplete="off" 
+              class="w-full p-2 rounded bg-gray-700 border border-gray-600"></textarea>
+
+    <label class="block">Upload File</label>
+    <input type="file" name="imageFile" class="w-full text-sm">
+
+    <div class="text-center text-gray-400">OR</div>
+
+    <input type="text" name="linkUrl" autocomplete="off" placeholder="Paste Image Link" 
+           class="w-full p-2 rounded bg-gray-700 border border-gray-600">
+
+    <button type="submit" 
+            class="w-full bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg">
+      Submit
+    </button>
+  </form>
+</body>
+</html>
